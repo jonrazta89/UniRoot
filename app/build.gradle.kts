@@ -2,6 +2,7 @@
 
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
@@ -10,15 +11,12 @@ val appVersionName = "5.0.0"
 
 android {
     namespace = "com.uniroot.app"
-    compileSdk {
-        version = release(37) {
-            minorApiLevel = 2
-        }
-    }
+    compileSdk = 36
+
     defaultConfig {
         applicationId = "com.example.universalsystemporter"
         minSdk = 31
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 300
         versionName = appVersionName
     }
@@ -30,8 +28,16 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
     buildFeatures {
         buildConfig = true
+        compose = true
     }
     packaging {
         jniLibs {
@@ -41,12 +47,10 @@ android {
 }
 
 dependencies {
-    implementation("androidx.activity:activity-compose:1.13.0")
-    implementation("androidx.compose.foundation:foundation:1.12.0")
+    implementation("androidx.activity:activity-compose:1.10.1")
+    implementation("androidx.compose.foundation:foundation:1.11.0-beta02")
+    implementation("androidx.compose.material3:material3:1.5.0-alpha18")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
-    implementation("top.yukonga.miuix.kmp:miuix-ui:0.9.4-rc01")
-    implementation("top.yukonga.miuix.kmp:miuix-icons:0.9.4-rc01")
-    implementation("top.yukonga.miuix.kmp:miuix-preference:0.9.4-rc01")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.0")
     implementation("dev.rikka.shizuku:api:13.1.5")
     implementation("dev.rikka.shizuku:aidl:13.1.5")

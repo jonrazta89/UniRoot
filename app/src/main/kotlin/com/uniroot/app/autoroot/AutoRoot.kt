@@ -425,9 +425,15 @@ class AutoRootService : Service() {
                     .setProgress(progress.coerceIn(0, 100))
             )
             // Ask the system to promote this notification (Now Bar / lock screen).
-            runCatching { builder.setRequestPromotedOngoing(true) }
+            runCatching {
+                val method = builder.javaClass.getMethod("setRequestPromotedOngoing", Boolean::class.javaPrimitiveType)
+                method.invoke(builder, true)
+            }
             builder.extras.putBoolean("android.requestPromotedOngoing", true)
-            runCatching { builder.setShortCriticalText(text) }
+            runCatching {
+                val method = builder.javaClass.getMethod("setShortCriticalText", CharSequence::class.java)
+                method.invoke(builder, text)
+            }
         } else {
             builder.setProgress(100, progress.coerceIn(0, 100), progress in 1..99)
         }
